@@ -15,8 +15,9 @@ venv/
 
 # Node.js
 node_modules/
-dist/
-build/
+# dist/  <-- Commented out to allow uploading built frontend
+# build/
+!frontend/dist/
 .env
 .env.local
 .env.development.local
