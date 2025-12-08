@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -83,3 +83,9 @@ class DbTransaction(BaseModel):
     direction: Literal["in", "out", "self"]
     status: Literal["success", "failed"]
 
+
+class WalletRegisterRequest(BaseModel):
+    address: str
+    label: str
+    owner_name: str
+    network: str

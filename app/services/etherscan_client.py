@@ -14,12 +14,14 @@ class EtherscanClient:
     def __init__(self, api_key: str):
         self.api_key = api_key
 
-    async def get_txlist(self, address: str) -> Dict[str, Any]:
+    async def get_txlist(self, address: str, chain_id: int = CHAIN_ID) -> Dict[str, Any]:
         params = {
             "module": "account",
-            "chainid": CHAIN_ID,
+            "chainid": chain_id,
             "action": "txlist",
             "address": address,
+            "startblock": 0,
+            "endblock": 99999999,
             "sort": "desc",
             "apikey": self.api_key,
         }
