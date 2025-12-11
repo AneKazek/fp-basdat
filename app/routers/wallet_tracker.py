@@ -146,7 +146,7 @@ async def register_wallet(request: Request, data: WalletRegisterRequest, db: Ses
                 value_eth=Decimal(str(item.value_eth)),
                 gas_used=item.gas_used,
                 tx_fee_eth=Decimal("0"),
-                direction=direction,
+                direction=direction.value,
                 status=item.status
             )
             db.add(new_tx)
@@ -251,7 +251,7 @@ async def get_wallet_info(address: str, db: Session = Depends(get_db), page: int
                     value_eth=Decimal(str(item.value_eth)),
                     gas_used=item.gas_used,
                     tx_fee_eth=Decimal("0"),
-                    direction=direction,
+                    direction=direction.value,
                     status=item.status
                 )
                 db.add(new_tx)
