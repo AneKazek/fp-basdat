@@ -16,7 +16,7 @@ else:
     if parsed.scheme.startswith("mysql+pymysql") and (
         "proxy.rlwy.net" in host or "railway" in host
     ):
-        connect_args = {"ssl": {"ssl": {}}}
+        connect_args = {"ssl": {}}
 
 engine = create_engine(
     settings.DATABASE_URL, 
