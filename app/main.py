@@ -5,6 +5,8 @@ from slowapi.middleware import SlowAPIMiddleware
 from slowapi import _rate_limit_exceeded_handler
 
 from app.config import settings
+from sqlalchemy import text
+from app.database import SessionLocal
 from app.app_logging import add_timing_middleware, setup_logging
 from app.rate_limit import limiter
 from app.routers.monitor import router as monitor_router
@@ -60,4 +62,23 @@ else:
 import structlog
 logger = structlog.get_logger()
 logger.info("service_started", rate_limit=settings.rate_limit_str(), log_level=settings.LOG_LEVEL)
+
+@app.get("/health")
+async def health():
+    db_ok = True
+    try:
+        db = SessionLocal()
+        db.execute(text("SELECT 1"))
+    except Exception:
+        db_ok = False
+    finally:
+        try:
+            db.close()
+        except Exception:
+            pass
+    return {
+        "status": "ok",
+        "db": db_ok,
+        "etherscan_key": bool(settings.ETHERSCAN_API_KEY),
+    }
 
