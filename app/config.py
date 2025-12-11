@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    ETHERSCAN_API_KEY: str
+    ETHERSCAN_API_KEY: str = ""
     DATABASE_URL: str = "mysql+pymysql://user:password@localhost:3306/fp_basdat"
     RATE_LIMIT: int = 5
     LOG_LEVEL: str = "INFO"
