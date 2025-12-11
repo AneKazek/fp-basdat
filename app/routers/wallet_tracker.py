@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
@@ -139,12 +140,12 @@ async def register_wallet(request: Request, data: WalletRegisterRequest, db: Ses
                 wallet_id=wallet.wallet_id,
                 tx_hash=item.tx_hash,
                 block_number=item.block_number,
-                time_stamp=datetime.fromisoformat(item.timestamp.replace("Z", "+00:00")),
+                time_stamp=datetime.fromisoformat(item.timestamp.replace("Z", "+00:00")).replace(tzinfo=None),
                 from_address=item.from_address,
                 to_address=item.to_address,
-                value_eth=item.value_eth,
+                value_eth=Decimal(str(item.value_eth)),
                 gas_used=item.gas_used,
-                tx_fee_eth=0,
+                tx_fee_eth=Decimal("0"),
                 direction=direction,
                 status=item.status
             )
@@ -244,12 +245,12 @@ async def get_wallet_info(address: str, db: Session = Depends(get_db), page: int
                     wallet_id=wallet.wallet_id,
                     tx_hash=item.tx_hash,
                     block_number=item.block_number,
-                    time_stamp=datetime.fromisoformat(item.timestamp.replace("Z", "+00:00")),
+                    time_stamp=datetime.fromisoformat(item.timestamp.replace("Z", "+00:00")).replace(tzinfo=None),
                     from_address=item.from_address,
                     to_address=item.to_address,
-                    value_eth=item.value_eth,
+                    value_eth=Decimal(str(item.value_eth)),
                     gas_used=item.gas_used,
-                    tx_fee_eth=0,
+                    tx_fee_eth=Decimal("0"),
                     direction=direction,
                     status=item.status
                 )
@@ -349,4 +350,3 @@ def get_wallet_transactions(address: str, db: Session = Depends(get_db), page: i
         "total": total,
         "items": tx_list,
     }
-
